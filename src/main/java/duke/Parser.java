@@ -43,6 +43,8 @@ public class Parser {
      */
     static Task parseTask(String input) throws DukeException {
         String[] tokens = input.split(" ", 2);
+        assert(tokens.length >= 2);
+
         String command = tokens[0];
         String data = tokens[1];
 
@@ -80,6 +82,7 @@ public class Parser {
      */
     static Task parseSavedTask(String input) throws DukeException {
         String[] tokens = input.split(" \\| ");
+        assert(tokens.length >= 3);
 
         String type = tokens[0];
         boolean isDone = tokens[1].equals("1");
