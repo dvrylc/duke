@@ -1,11 +1,10 @@
 package duke;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 class Storage {
     private String filePath;
@@ -20,49 +19,37 @@ class Storage {
     }
 
     /**
-     * Loads tasks from a save file into an ArrayList.
+     * Loads tasks from a save file.
      *
-     * @return ArrayList with all tasks from the save file.
-     * @throws DukeException If file I/O fails
+     * @return TaskList with all saved tasks.
+     * @throws DukeException If file I/O fails or if save file data is invalid.
      */
-    ArrayList<Task> load() throws DukeException {
-        ArrayList<Task> tasks = new ArrayList<>();
-
+    TaskList load() throws DukeException {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.filePath));
+            FileInputStream fin = new FileInputStream(this.filePath);
+            ObjectInputStream ois = new ObjectInputStream(fin);
 
-            String input = reader.readLine();
-            while (input != null) {
-                Task task = Parser.parseSavedTask(input);
-                tasks.add(task);
-                input = reader.readLine();
-            }
-        } catch (IOException e) {
-            throw new DukeException("Failed to read save file.");
+            return (TaskList) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new DukeException("Failed to read from save file.");
         }
-
-        return tasks;
     }
 
     /**
-     * Writes all tasks to the save file.
+     * Writes tasks to save file.
      *
-     * @param tasks ArrayList of all tasks.
-     * @throws DukeException If file I/O fails
+     * @param tasks TaskList with current tasks.
+     * @throws DukeException If file I/O fails.
      */
-    void persist(ArrayList<Task> tasks) throws DukeException {
-        StringBuilder output = new StringBuilder();
-        for (Task t : tasks) {
-            output.append(String.format("%s%n", t.toSaveFormat()));
-        }
-
+    void persist(TaskList tasks) throws DukeException {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath));
-            writer.write(output.toString());
-            writer.close();
-        } catch (IOException e) {
-            throw new DukeException("Failed to write save file.");
-        }
+            FileOutputStream fout = new FileOutputStream(this.filePath);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
 
+            oos.writeObject(tasks);
+            fout.close();
+        } catch (IOException e) {
+            throw new DukeException("Failed to write to save file.");
+        }
     }
 }

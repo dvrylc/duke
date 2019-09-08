@@ -10,10 +10,8 @@ class TodoTest {
     void constructor_validInput_pass() {
         String description = "Sample todo";
         Todo notDone = new Todo(description);
-        Todo done = new Todo(description, true);
 
         assertFalse(notDone.getIsDone());
-        assertTrue(done.getIsDone());
     }
 
     @Test

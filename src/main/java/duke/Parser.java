@@ -72,48 +72,6 @@ public class Parser {
     }
 
     /**
-     * Parses a saved task string into a task.
-     *
-     * @param input Saved task string.
-     * @return Task.
-     * @throws DukeException If task type is invalid.
-     */
-    static Task parseSavedTask(String input) throws DukeException {
-        String[] tokens = input.split(" \\| ");
-
-        String type = tokens[0];
-        boolean isDone = tokens[1].equals("1");
-        String description = tokens[2];
-
-        Task task;
-
-        switch (type) {
-        case "T": {
-            task = new Todo(description, isDone);
-            break;
-        }
-
-        case "D": {
-            Date date = Parser.parseDate(tokens[3]);
-            task = new Deadline(description, isDone, date);
-            break;
-        }
-
-        case "E": {
-            Date date = Parser.parseDate(tokens[3]);
-            task = new Event(description, isDone, date);
-            break;
-        }
-
-        default: {
-            throw new DukeException("Invalid task type found in save file.");
-        }
-        }
-
-        return task;
-    }
-
-    /**
      * Parses a date string into a Date object.
      *
      * @param dateStr Date string.

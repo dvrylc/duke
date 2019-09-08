@@ -20,7 +20,7 @@ public class Duke {
         this.storage = new Storage(filePath);
 
         try {
-            this.tasks = new TaskList(storage.load());
+            this.tasks = storage.load();
         } catch (DukeException e) {
             this.ui.showException(e);
             this.tasks = new TaskList();
@@ -116,7 +116,7 @@ public class Duke {
             }
             }
 
-            this.storage.persist(this.tasks.getTasks());
+            this.storage.persist(this.tasks);
         } catch (DukeException e) {
             output.append(this.ui.showException(e));
         }

@@ -11,26 +11,6 @@ class Todo extends Task {
     }
 
     /**
-     * Creates a new todo.
-     *
-     * @param description Description of the todo.
-     * @param isDone      Flag whether todo is done.
-     */
-    Todo(String description, boolean isDone) {
-        super(description, isDone);
-    }
-
-    /**
-     * Generates the task's text representation in save file format.
-     *
-     * @return Text representation of the task in save file format.
-     */
-    @Override
-    String toSaveFormat() {
-        return String.format("T | %s", super.toSaveFormat());
-    }
-
-    /**
      * Generates the task's text representation in display format.
      *
      * @return Text representation of the task in display format

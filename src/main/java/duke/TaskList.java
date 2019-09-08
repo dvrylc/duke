@@ -1,8 +1,9 @@
 package duke;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-class TaskList {
+class TaskList implements Serializable {
     private ArrayList<Task> tasks;
 
     /**
@@ -10,15 +11,6 @@ class TaskList {
      */
     TaskList() {
         this.tasks = new ArrayList<>();
-    }
-
-    /**
-     * Creates a new task list using an existing ArrayList.
-     *
-     * @param tasks ArrayList of tasks.
-     */
-    TaskList(ArrayList<Task> tasks) {
-        this.tasks = tasks;
     }
 
     /**
@@ -61,15 +53,6 @@ class TaskList {
      */
     boolean addTask(Task task) {
         return this.tasks.add(task);
-    }
-
-    /**
-     * Access underlying ArrayList for export purposes.
-     *
-     * @return ArrayList of tasks.
-     */
-    ArrayList<Task> getTasks() {
-        return this.tasks;
     }
 
     /**
